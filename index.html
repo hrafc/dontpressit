@@ -41,7 +41,7 @@
 
     /* =========================
        GAME
-    ========================== */
+    ========================= */
 
     .game {
       min-height: 100vh;
@@ -51,7 +51,7 @@
 
     /* =========================
        TOP BAR
-    ========================== */
+    ========================= */
 
     .topbar {
       width: 100%;
@@ -63,6 +63,8 @@
 
       background: #111;
       border-bottom: 1px solid #222;
+
+      gap: 20px;
     }
 
     .logo {
@@ -73,6 +75,12 @@
 
     .logo span {
       color: #ff2a2a;
+    }
+
+    .top-right {
+      display: flex;
+      align-items: center;
+      gap: 18px;
     }
 
     .stats {
@@ -99,22 +107,57 @@
     }
 
     /* =========================
+       RESET BUTTON
+    ========================= */
+
+    .reset-button {
+      border: 1px solid #333;
+      background: #191919;
+      color: #aaa;
+
+      padding: 9px 13px;
+      border-radius: 8px;
+
+      font-size: 11px;
+      font-weight: 800;
+
+      cursor: pointer;
+
+      transition:
+        background 0.15s,
+        color 0.15s,
+        transform 0.15s;
+    }
+
+    .reset-button:hover {
+      background: #252525;
+      color: white;
+    }
+
+    .reset-button:active {
+      transform: scale(0.96);
+    }
+
+    /* =========================
        MAIN
-    ========================== */
+    ========================= */
 
     .main {
       flex: 1;
       padding: 25px;
+
       display: flex;
+      flex-direction: column;
+      gap: 20px;
     }
 
     /* =========================
        PLAY AREA
-    ========================== */
+    ========================= */
 
     .play-area {
       width: 100%;
-      min-height: 650px;
+      min-height: 620px;
 
       background: #101010;
       border: 1px solid #202020;
@@ -131,7 +174,7 @@
 
     /* =========================
        WARNING
-    ========================== */
+    ========================= */
 
     .warning {
       font-size: 16px;
@@ -148,7 +191,7 @@
 
     /* =========================
        BUTTON
-    ========================== */
+    ========================= */
 
     .button-wrapper {
       position: relative;
@@ -201,7 +244,7 @@
 
     /* =========================
        COUNTER
-    ========================== */
+    ========================= */
 
     .press-count {
       margin-top: 35px;
@@ -221,21 +264,152 @@
     }
 
     /* =========================
-       FOOTER
-    ========================== */
+       PROGRESS SECTION
+    ========================= */
 
-    .footer {
-      padding: 15px;
+    .progress-panel {
+      width: 100%;
 
-      text-align: center;
+      background: #101010;
+      border: 1px solid #202020;
+      border-radius: 18px;
 
-      color: #444;
+      padding: 22px 24px;
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      margin-bottom: 18px;
+      gap: 15px;
+    }
+
+    .progress-title {
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .progress-status {
+      color: #777;
+      font-size: 12px;
+    }
+
+    /* =========================
+       PROGRESS BAR
+    ========================= */
+
+    .progress-track {
+      position: relative;
+
+      width: 100%;
+      height: 10px;
+
+      background: #242424;
+      border-radius: 999px;
+
+      overflow: visible;
+    }
+
+    .progress-fill {
+      position: absolute;
+      left: 0;
+      top: 0;
+
+      height: 100%;
+      width: 0%;
+
+      background: linear-gradient(
+        90deg,
+        #ff2a2a,
+        #ff5555
+      );
+
+      border-radius: 999px;
+
+      transition: width 0.25s ease;
+    }
+
+    /* =========================
+       PROGRESS MILESTONES
+    ========================= */
+
+    .milestones {
+      position: relative;
+
+      width: 100%;
+
+      margin-top: 15px;
+    }
+
+    .milestone {
+      position: absolute;
+      top: 0;
+
+      transform: translateX(-50%);
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      gap: 7px;
+
+      min-width: 55px;
+    }
+
+    .milestone-dot {
+      width: 17px;
+      height: 17px;
+
+      border-radius: 50%;
+
+      background: #292929;
+      border: 2px solid #444;
+
+      transition:
+        background 0.2s,
+        border-color 0.2s,
+        transform 0.2s,
+        box-shadow 0.2s;
+    }
+
+    .milestone.completed .milestone-dot {
+      background: #ff2a2a;
+      border-color: #ff5555;
+
+      box-shadow:
+        0 0 15px rgba(255, 42, 42, 0.4);
+    }
+
+    .milestone.next .milestone-dot {
+      transform: scale(1.2);
+
+      border-color: #ff2a2a;
+      box-shadow:
+        0 0 14px rgba(255, 42, 42, 0.3);
+    }
+
+    .milestone-number {
       font-size: 11px;
+      font-weight: 900;
+      color: #777;
+      white-space: nowrap;
+    }
+
+    .milestone.completed .milestone-number {
+      color: white;
+    }
+
+    .milestone.next .milestone-number {
+      color: #ff5555;
     }
 
     /* =========================
        MODAL OVERLAY
-    ========================== */
+    ========================= */
 
     .modal-overlay {
       position: fixed;
@@ -261,7 +435,7 @@
 
     /* =========================
        MODAL
-    ========================== */
+    ========================= */
 
     .modal {
       width: min(420px, 100%);
@@ -322,10 +496,61 @@
     }
 
     /* =========================
+       RESET CONFIRM MODAL
+    ========================= */
+
+    .reset-modal-text {
+      color: #aaa;
+
+      font-size: 13px;
+      line-height: 1.5;
+
+      margin-top: -10px;
+      margin-bottom: 22px;
+    }
+
+    .reset-actions {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .reset-cancel,
+    .reset-confirm {
+      border: none;
+
+      padding: 11px 18px;
+
+      border-radius: 9px;
+
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .reset-cancel {
+      background: #252525;
+      color: #aaa;
+    }
+
+    .reset-confirm {
+      background: #ff2a2a;
+      color: white;
+    }
+
+    .reset-cancel:hover {
+      background: #303030;
+    }
+
+    .reset-confirm:hover {
+      background: #ff4040;
+    }
+
+    /* =========================
        MODAL ANIMATION
-    ========================== */
+    ========================= */
 
     @keyframes modalPop {
+
       from {
         opacity: 0;
         transform: scale(0.85);
@@ -335,22 +560,61 @@
         opacity: 1;
         transform: scale(1);
       }
+
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    .footer {
+      padding: 15px;
+
+      text-align: center;
+
+      color: #444;
+      font-size: 11px;
     }
 
     /* =========================
        RESPONSIVE
-    ========================== */
+    ========================= */
 
-    @media (max-width: 600px) {
+    @media (max-width: 700px) {
 
       .topbar {
         flex-direction: column;
-        gap: 15px;
+        align-items: stretch;
+      }
+
+      .top-right {
+        justify-content: space-between;
       }
 
       .stats {
         gap: 20px;
       }
+
+      .progress-panel {
+        padding: 18px 14px;
+      }
+
+      .milestone-number {
+        font-size: 10px;
+      }
+
+      .main-button {
+        width: 210px;
+        height: 210px;
+      }
+
+      .press-count {
+        font-size: 38px;
+      }
+
+    }
+
+    @media (max-width: 480px) {
 
       .main {
         padding: 12px;
@@ -361,12 +625,12 @@
       }
 
       .main-button {
-        width: 190px;
-        height: 190px;
+        width: 185px;
+        height: 185px;
       }
 
-      .press-count {
-        font-size: 36px;
+      .progress-status {
+        font-size: 11px;
       }
 
       .warning {
@@ -381,6 +645,7 @@
       .modal-message {
         font-size: 21px;
       }
+
     }
   </style>
 </head>
@@ -391,7 +656,7 @@
 
     <!-- =========================
          TOP BAR
-    ========================== -->
+    ========================= -->
 
     <header class="topbar">
 
@@ -399,37 +664,49 @@
         DON'T <span>PRESS IT</span>
       </div>
 
-      <div class="stats">
+      <div class="top-right">
 
-        <div class="stat">
+        <div class="stats">
 
-          <span class="stat-label">
-            Points
-          </span>
+          <div class="stat">
 
-          <span
-            class="stat-value"
-            id="points"
-          >
-            0
-          </span>
+            <span class="stat-label">
+              Points
+            </span>
+
+            <span
+              class="stat-value"
+              id="points"
+            >
+              0
+            </span>
+
+          </div>
+
+          <div class="stat">
+
+            <span class="stat-label">
+              Per Press
+            </span>
+
+            <span
+              class="stat-value"
+              id="perPress"
+            >
+              1
+            </span>
+
+          </div>
 
         </div>
 
-        <div class="stat">
-
-          <span class="stat-label">
-            Per Press
-          </span>
-
-          <span
-            class="stat-value"
-            id="perPress"
-          >
-            1
-          </span>
-
-        </div>
+        <button
+          class="reset-button"
+          id="resetButton"
+          type="button"
+        >
+          RESET SCORE
+        </button>
 
       </div>
 
@@ -437,10 +714,12 @@
 
 
     <!-- =========================
-         MAIN GAME
-    ========================== -->
+         MAIN
+    ========================= -->
 
     <main class="main">
+
+      <!-- GAME -->
 
       <section class="play-area">
 
@@ -477,12 +756,124 @@
 
       </section>
 
+
+      <!-- =========================
+           PROGRESS
+      ========================= -->
+
+      <section class="progress-panel">
+
+        <div class="progress-header">
+
+          <div class="progress-title">
+            Progress
+          </div>
+
+          <div
+            class="progress-status"
+            id="progressStatus"
+          >
+            Next goal: 10
+          </div>
+
+        </div>
+
+
+        <div class="progress-track">
+
+          <div
+            class="progress-fill"
+            id="progressFill"
+          ></div>
+
+        </div>
+
+
+        <div
+          class="milestones"
+          id="milestones"
+        >
+
+          <div
+            class="milestone"
+            data-goal="10"
+            style="left: 5%;"
+          >
+
+            <div class="milestone-dot"></div>
+
+            <div class="milestone-number">
+              10
+            </div>
+
+          </div>
+
+
+          <div
+            class="milestone"
+            data-goal="50"
+            style="left: 25%;"
+          >
+
+            <div class="milestone-dot"></div>
+
+            <div class="milestone-number">
+              50
+            </div>
+
+          </div>
+
+
+          <div
+            class="milestone"
+            data-goal="100"
+            style="left: 50%;"
+          >
+
+            <div class="milestone-dot"></div>
+
+            <div class="milestone-number">
+              100
+            </div>
+
+          </div>
+
+
+          <div
+            class="milestone"
+            data-goal="150"
+            style="left: 75%;"
+          >
+
+            <div class="milestone-dot"></div>
+
+            <div class="milestone-number">
+              150
+            </div>
+
+          </div>
+
+
+          <div
+            class="milestone"
+            data-goal="200"
+            style="left: 100%;"
+          >
+
+            <div class="milestone-dot"></div>
+
+            <div class="milestone-number">
+              200
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
     </main>
 
-
-    <!-- =========================
-         FOOTER
-    ========================== -->
 
     <footer class="footer">
       You were warned.
@@ -493,7 +884,7 @@
 
   <!-- =========================
        MILESTONE MODAL
-  ========================== -->
+  ========================= -->
 
   <div
     class="modal-overlay"
@@ -506,7 +897,7 @@
         class="modal-message"
         id="modalMessage"
       >
-        DO NOT KEEP GOING.
+        KEEP GOING.
       </div>
 
       <button
@@ -523,14 +914,59 @@
 
 
   <!-- =========================
+       RESET MODAL
+  ========================= -->
+
+  <div
+    class="modal-overlay"
+    id="resetOverlay"
+  >
+
+    <div class="modal">
+
+      <div class="modal-message">
+        RESET SCORE?
+      </div>
+
+      <div class="reset-modal-text">
+        This will delete your current presses
+        and points permanently.
+      </div>
+
+      <div class="reset-actions">
+
+        <button
+          class="reset-cancel"
+          id="resetCancel"
+          type="button"
+        >
+          CANCEL
+        </button>
+
+        <button
+          class="reset-confirm"
+          id="resetConfirm"
+          type="button"
+        >
+          RESET
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
        GAME JAVASCRIPT
-  ========================== -->
+  ========================= -->
 
   <script>
 
     /* =========================
        GAME STATE
-    ========================== */
+    ========================= */
 
     const game = {
 
@@ -554,8 +990,39 @@
 
 
     /* =========================
+       GOALS
+    ========================= */
+
+    const goals = [
+      10,
+      50,
+      100,
+      150,
+      200
+    ];
+
+
+    /* =========================
+       LINKS
+    ========================= */
+
+    const milestoneLinks = {
+
+      100:
+        "https://www.youtube.com/@ryu_zaki.67",
+
+      150:
+        "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+
+      200:
+        "https://www.youtube.com/watch?v=8B3zKexjXxw"
+
+    };
+
+
+    /* =========================
        DOM
-    ========================== */
+    ========================= */
 
     const mainButton =
       document.getElementById(
@@ -577,6 +1044,16 @@
         "perPress"
       );
 
+    const progressFill =
+      document.getElementById(
+        "progressFill"
+      );
+
+    const progressStatus =
+      document.getElementById(
+        "progressStatus"
+      );
+
     const modalOverlay =
       document.getElementById(
         "modalOverlay"
@@ -592,10 +1069,30 @@
         "modalClose"
       );
 
+    const resetButton =
+      document.getElementById(
+        "resetButton"
+      );
+
+    const resetOverlay =
+      document.getElementById(
+        "resetOverlay"
+      );
+
+    const resetCancel =
+      document.getElementById(
+        "resetCancel"
+      );
+
+    const resetConfirm =
+      document.getElementById(
+        "resetConfirm"
+      );
+
 
     /* =========================
-       SAVE GAME
-    ========================== */
+       SAVE
+    ========================= */
 
     function saveGame() {
 
@@ -614,7 +1111,7 @@
 
     /* =========================
        UPDATE UI
-    ========================== */
+    ========================= */
 
     function updateUI() {
 
@@ -627,12 +1124,96 @@
       perPressDisplay.textContent =
         game.pointsPerPress.toLocaleString();
 
+      updateProgress();
+
+    }
+
+
+    /* =========================
+       UPDATE PROGRESS
+    ========================= */
+
+    function updateProgress() {
+
+      const progress =
+        Math.min(
+          (game.presses / 200) * 100,
+          100
+        );
+
+      progressFill.style.width =
+        `${progress}%`;
+
+
+      /* Reset milestone states */
+
+      document
+        .querySelectorAll(".milestone")
+        .forEach((milestone) => {
+
+          const goal =
+            Number(
+              milestone.dataset.goal
+            );
+
+          milestone.classList.remove(
+            "completed",
+            "next"
+          );
+
+          if (
+            game.presses >= goal
+          ) {
+
+            milestone.classList.add(
+              "completed"
+            );
+
+          }
+
+        });
+
+
+      /* Find next goal */
+
+      const nextGoal =
+        goals.find(
+          (goal) =>
+            game.presses < goal
+        );
+
+
+      if (nextGoal) {
+
+        progressStatus.textContent =
+          `Next goal: ${nextGoal.toLocaleString()} clicks`;
+
+        const nextMilestone =
+          document.querySelector(
+            `.milestone[data-goal="${nextGoal}"]`
+          );
+
+        if (nextMilestone) {
+
+          nextMilestone.classList.add(
+            "next"
+          );
+
+        }
+
+      } else {
+
+        progressStatus.textContent =
+          "ALL GOALS COMPLETE 🔴";
+
+      }
+
     }
 
 
     /* =========================
        SHOW MODAL
-    ========================== */
+    ========================= */
 
     function showModal(message) {
 
@@ -648,7 +1229,7 @@
 
     /* =========================
        CLOSE MODAL
-    ========================== */
+    ========================= */
 
     function closeModal() {
 
@@ -660,8 +1241,8 @@
 
 
     /* =========================
-       BUTTON PRESS
-    ========================== */
+       PRESS BUTTON
+    ========================= */
 
     function pressButton() {
 
@@ -681,12 +1262,12 @@
 
     /* =========================
        MILESTONES
-    ========================== */
+    ========================= */
 
     function checkMilestone() {
 
       /* =====================
-         10 PRESSES
+         10
       ===================== */
 
       if (game.presses === 10) {
@@ -700,13 +1281,13 @@
 
 
       /* =====================
-         50 PRESSES
+         50
       ===================== */
 
       if (game.presses === 50) {
 
         showModal(
-          "PLS STOP."
+          "DON'T STOP."
         );
 
         return;
@@ -714,7 +1295,7 @@
 
 
       /* =====================
-         100 PRESSES
+         100
       ===================== */
 
       if (game.presses === 100) {
@@ -724,21 +1305,26 @@
         );
 
         modalClose.textContent =
-          "SUBSCRIBE";
+          "CONTINUE";
 
-        setTimeout(() => {
+        /*
+          Open immediately from the
+          user's click so the browser
+          allows the new tab.
+        */
 
-          window.location.href =
-            "https://www.youtube.com/@ryu_zaki.67";
-
-        }, 1500);
+        window.open(
+          milestoneLinks[100],
+          "_blank",
+          "noopener,noreferrer"
+        );
 
         return;
       }
 
 
       /* =====================
-         150 PRESSES
+         150
       ===================== */
 
       if (game.presses === 150) {
@@ -750,19 +1336,18 @@
         modalClose.textContent =
           "CONTINUE";
 
-        setTimeout(() => {
-
-          window.location.href =
-            "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
-
-        }, 1200);
+        window.open(
+          milestoneLinks[150],
+          "_blank",
+          "noopener,noreferrer"
+        );
 
         return;
       }
 
 
       /* =====================
-         200 PRESSES
+         200
       ===================== */
 
       if (game.presses === 200) {
@@ -774,12 +1359,11 @@
         modalClose.textContent =
           "CONTINUE";
 
-        setTimeout(() => {
-
-          window.location.href =
-            "https://www.youtube.com/watch?v=8B3zKexjXxw";
-
-        }, 1500);
+        window.open(
+          milestoneLinks[200],
+          "_blank",
+          "noopener,noreferrer"
+        );
 
         return;
       }
@@ -788,18 +1372,68 @@
 
 
     /* =========================
-       MODAL CLOSE BUTTON
-    ========================== */
+       RESET GAME
+    ========================= */
+
+    function showResetModal() {
+
+      resetOverlay.classList.add(
+        "show"
+      );
+
+    }
+
+
+    function closeResetModal() {
+
+      resetOverlay.classList.remove(
+        "show"
+      );
+
+    }
+
+
+    function resetGame() {
+
+      game.presses = 0;
+      game.points = 0;
+
+      localStorage.removeItem(
+        "dontPressPresses"
+      );
+
+      localStorage.removeItem(
+        "dontPressPoints"
+      );
+
+      updateUI();
+
+      closeResetModal();
+
+      closeModal();
+
+    }
+
+
+    /* =========================
+       MAIN BUTTON
+    ========================= */
+
+    mainButton.addEventListener(
+      "click",
+      pressButton
+    );
+
+
+    /* =========================
+       MODAL CLOSE
+    ========================= */
 
     modalClose.addEventListener(
       "click",
       closeModal
     );
 
-
-    /* =========================
-       CLICK OUTSIDE MODAL
-    ========================== */
 
     modalOverlay.addEventListener(
       "click",
@@ -819,18 +1453,34 @@
 
 
     /* =========================
-       ESC KEY
-    ========================== */
+       RESET
+    ========================= */
 
-    document.addEventListener(
-      "keydown",
+    resetButton.addEventListener(
+      "click",
+      showResetModal
+    );
+
+    resetCancel.addEventListener(
+      "click",
+      closeResetModal
+    );
+
+    resetConfirm.addEventListener(
+      "click",
+      resetGame
+    );
+
+    resetOverlay.addEventListener(
+      "click",
       (event) => {
 
         if (
-          event.key === "Escape"
+          event.target ===
+          resetOverlay
         ) {
 
-          closeModal();
+          closeResetModal();
 
         }
 
@@ -839,62 +1489,60 @@
 
 
     /* =========================
-       MAIN BUTTON
-    ========================== */
+       ESC KEY
+    ========================= */
 
-    mainButton.addEventListener(
-      "click",
-      pressButton
+    document.addEventListener(
+      "keydown",
+      (event) => {
+
+        if (event.key === "Escape") {
+
+          closeModal();
+          closeResetModal();
+
+        }
+
+      }
     );
 
 
     /* =========================
        COPY PROTECTION
-    ========================== */
+    ========================= */
 
     document.addEventListener(
       "copy",
       (event) => {
-
         event.preventDefault();
-
       }
     );
-
 
     document.addEventListener(
       "cut",
       (event) => {
-
         event.preventDefault();
-
       }
     );
-
 
     document.addEventListener(
       "contextmenu",
       (event) => {
-
         event.preventDefault();
-
       }
     );
-
 
     document.addEventListener(
       "dragstart",
       (event) => {
-
         event.preventDefault();
-
       }
     );
 
 
     /* =========================
-       START GAME
-    ========================== */
+       START
+    ========================= */
 
     updateUI();
 
@@ -903,7 +1551,7 @@
 
   <!-- =========================
        SERVICE WORKER
-  ========================== -->
+  ========================= -->
 
   <script>
 
