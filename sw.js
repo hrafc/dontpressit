@@ -1,4 +1,4 @@
-const CACHE_NAME = "dont-press-it-v2";
+const CACHE_NAME = "dont-press-it-v2.4";
 
 const FILES_TO_CACHE = [
   "./",
