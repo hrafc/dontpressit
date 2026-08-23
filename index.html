@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#ff2a2a">
 
@@ -13,6 +14,15 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      -webkit-user-select: none;
+      user-select: none;
+      -webkit-touch-callout: none;
+    }
+
+    html,
+    body {
+      width: 100%;
+      min-height: 100%;
     }
 
     body {
@@ -21,6 +31,11 @@
       color: white;
       min-height: 100vh;
       overflow-x: hidden;
+    }
+
+    button {
+      -webkit-user-select: none;
+      user-select: none;
     }
 
     /* =========================
@@ -80,23 +95,23 @@
     }
 
     /* =========================
-       MAIN GAME AREA
+       MAIN
     ========================= */
 
     .main {
       flex: 1;
-      display: grid;
-      grid-template-columns: 1fr 320px;
-      gap: 25px;
       padding: 25px;
+      display: flex;
     }
 
     /* =========================
-       CENTER
+       PLAY AREA
     ========================= */
 
     .play-area {
+      width: 100%;
       min-height: 650px;
+
       background: #101010;
       border: 1px solid #202020;
       border-radius: 18px;
@@ -110,11 +125,16 @@
       overflow: hidden;
     }
 
+    /* =========================
+       WARNING
+    ========================= */
+
     .warning {
       font-size: 16px;
       color: #aaa;
       margin-bottom: 25px;
       letter-spacing: 1px;
+      text-align: center;
     }
 
     .warning strong {
@@ -153,6 +173,7 @@
       color: white;
       font-size: 25px;
       font-weight: 900;
+
       cursor: pointer;
 
       transition:
@@ -166,10 +187,15 @@
 
     .main-button:active {
       transform: translateY(9px) scale(0.98);
+
       box-shadow:
         0 8px 0 #550000,
         0 15px 25px rgba(0, 0, 0, 0.6);
     }
+
+    /* =========================
+       COUNTER
+    ========================= */
 
     .press-count {
       margin-top: 35px;
@@ -182,6 +208,7 @@
       text-transform: uppercase;
       font-size: 12px;
       letter-spacing: 3px;
+      margin-top: 4px;
     }
 
     /* =========================
@@ -190,6 +217,7 @@
 
     .message-box {
       margin-top: 40px;
+
       width: min(500px, 90%);
       min-height: 55px;
 
@@ -209,94 +237,6 @@
     }
 
     /* =========================
-       SIDEBAR
-    ========================= */
-
-    .sidebar {
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-    }
-
-    .panel {
-      background: #101010;
-      border: 1px solid #222;
-      border-radius: 15px;
-      padding: 20px;
-    }
-
-    .panel h2 {
-      font-size: 17px;
-      margin-bottom: 15px;
-    }
-
-    /* =========================
-       UPGRADES
-    ========================= */
-
-    .upgrade {
-      background: #161616;
-      border: 1px solid #252525;
-      border-radius: 10px;
-      padding: 12px;
-      margin-bottom: 10px;
-
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .upgrade-info {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .upgrade-name {
-      font-weight: bold;
-    }
-
-    .upgrade-description {
-      font-size: 11px;
-      color: #777;
-    }
-
-    .upgrade-btn {
-      border: none;
-      background: #292929;
-      color: white;
-
-      padding: 9px 12px;
-      border-radius: 7px;
-
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    .upgrade-btn:hover {
-      background: #333;
-    }
-
-    /* =========================
-       ACHIEVEMENTS
-    ========================= */
-
-    .achievement {
-      padding: 10px;
-      border-radius: 8px;
-      background: #161616;
-      margin-bottom: 8px;
-
-      color: #555;
-      font-size: 13px;
-    }
-
-    .achievement.unlocked {
-      color: white;
-      border-left: 3px solid #ff2a2a;
-    }
-
-    /* =========================
        FOOTER
     ========================= */
 
@@ -311,25 +251,15 @@
        RESPONSIVE
     ========================= */
 
-    @media (max-width: 900px) {
-      .main {
-        grid-template-columns: 1fr;
-      }
-
-      .sidebar {
-        grid-template-columns: repeat(2, 1fr);
-        display: grid;
-      }
-    }
-
     @media (max-width: 600px) {
+
       .topbar {
         flex-direction: column;
         gap: 15px;
       }
 
       .stats {
-        gap: 15px;
+        gap: 20px;
       }
 
       .main {
@@ -349,8 +279,9 @@
         font-size: 36px;
       }
 
-      .sidebar {
-        display: flex;
+      .warning {
+        font-size: 14px;
+        padding: 0 15px;
       }
     }
   </style>
@@ -374,31 +305,42 @@
 
         <div class="stat">
           <span class="stat-label">Points</span>
-          <span class="stat-value" id="points">0</span>
+          <span
+            class="stat-value"
+            id="points"
+          >
+            0
+          </span>
         </div>
 
         <div class="stat">
           <span class="stat-label">Per Press</span>
-          <span class="stat-value" id="perPress">1</span>
+          <span
+            class="stat-value"
+            id="perPress"
+          >
+            1
+          </span>
         </div>
 
       </div>
 
     </header>
 
+
     <!-- =========================
-         MAIN
+         MAIN GAME
     ========================== -->
 
     <main class="main">
 
-      <!-- CENTER GAME -->
       <section class="play-area">
 
         <div class="warning">
           Whatever you do...
           <strong>DON'T PRESS IT.</strong>
         </div>
+
 
         <div class="button-wrapper">
 
@@ -411,121 +353,28 @@
 
         </div>
 
-        <div class="press-count" id="pressCount">
+
+        <div
+          class="press-count"
+          id="pressCount"
+        >
           0
         </div>
+
 
         <div class="press-label">
           presses
         </div>
 
-        <div class="message-box" id="messageBox">
+
+        <div
+          class="message-box"
+          id="messageBox"
+        >
           The button is waiting...
         </div>
 
       </section>
-
-
-      <!-- SIDEBAR -->
-      <aside class="sidebar">
-
-        <!-- UPGRADES -->
-        <div class="panel">
-
-          <h2>⚡ Upgrades</h2>
-
-          <div class="upgrade">
-
-            <div class="upgrade-info">
-              <div class="upgrade-name">
-                Stronger Finger
-              </div>
-
-              <div class="upgrade-description">
-                +1 point per press
-              </div>
-            </div>
-
-            <button
-              class="upgrade-btn"
-              data-upgrade="finger"
-            >
-              Buy
-            </button>
-
-          </div>
-
-
-          <div class="upgrade">
-
-            <div class="upgrade-info">
-              <div class="upgrade-name">
-                Auto Presser
-              </div>
-
-              <div class="upgrade-description">
-                Press automatically
-              </div>
-
-            </div>
-
-            <button
-              class="upgrade-btn"
-              data-upgrade="auto"
-            >
-              Buy
-            </button>
-
-          </div>
-
-        </div>
-
-
-        <!-- ACHIEVEMENTS -->
-
-        <div class="panel">
-
-          <h2>🏆 Achievements</h2>
-
-          <div
-            class="achievement"
-            id="achievement10"
-          >
-            🔒 Press it 10 times
-          </div>
-
-          <div
-            class="achievement"
-            id="achievement100"
-          >
-            🔒 Press it 100 times
-          </div>
-
-          <div
-            class="achievement"
-            id="achievement1000"
-          >
-            🔒 Press it 1,000 times
-          </div>
-
-        </div>
-
-
-        <!-- EVENTS -->
-
-        <div class="panel">
-
-          <h2>⚠️ Event Log</h2>
-
-          <div id="eventLog">
-            <div class="achievement">
-              Nothing suspicious here...
-            </div>
-          </div>
-
-        </div>
-
-      </aside>
 
     </main>
 
@@ -537,51 +386,38 @@
   </div>
 
 
-  <script>
+  <!-- =========================
+       GAME JS
+  ========================== -->
 
-    /* =========================
-       GAME STATE
-    ========================== */
+  <script>
 
     const game = {
       presses: 0,
       points: 0,
-
-      pointsPerPress: 1,
-
-      upgrades: {
-        finger: 0,
-        auto: 0
-      },
-
-      achievements: {
-        ten: false,
-        hundred: false,
-        thousand: false
-      }
+      pointsPerPress: 1
     };
 
 
-    /* =========================
-       DOM
-    ========================== */
+    const mainButton =
+      document.getElementById("mainButton");
 
-    const mainButton = document.getElementById("mainButton");
+    const pressCount =
+      document.getElementById("pressCount");
 
-    const pressCount = document.getElementById("pressCount");
+    const pointsDisplay =
+      document.getElementById("points");
 
-    const pointsDisplay = document.getElementById("points");
+    const perPressDisplay =
+      document.getElementById("perPress");
 
-    const perPressDisplay = document.getElementById("perPress");
-
-    const messageBox = document.getElementById("messageBox");
-
-    const eventLog = document.getElementById("eventLog");
+    const messageBox =
+      document.getElementById("messageBox");
 
 
     /* =========================
        UPDATE UI
-    ========================== */
+    ========================= */
 
     function updateUI() {
 
@@ -598,36 +434,8 @@
 
 
     /* =========================
-       MESSAGE
-    ========================== */
-
-    function setMessage(message) {
-
-      messageBox.textContent = message;
-
-    }
-
-
-    /* =========================
-       EVENT LOG
-    ========================== */
-
-    function addEvent(message) {
-
-      const event = document.createElement("div");
-
-      event.className = "achievement";
-
-      event.textContent = message;
-
-      eventLog.prepend(event);
-
-    }
-
-
-    /* =========================
        PRESS BUTTON
-    ========================== */
+    ========================= */
 
     function pressButton() {
 
@@ -635,99 +443,14 @@
 
       game.points += game.pointsPerPress;
 
-      checkMilestones();
-
       updateUI();
 
     }
 
 
     /* =========================
-       MILESTONES
-    ========================== */
-
-    function checkMilestones() {
-
-      if (
-        game.presses >= 10 &&
-        !game.achievements.ten
-      ) {
-
-        game.achievements.ten = true;
-
-        document
-          .getElementById("achievement10")
-          .classList.add("unlocked");
-
-        document
-          .getElementById("achievement10")
-          .textContent = "✅ Press it 10 times";
-
-        setMessage(
-          "You actually pressed it 10 times..."
-        );
-
-        addEvent(
-          "🔴 10 presses reached."
-        );
-      }
-
-
-      if (
-        game.presses >= 100 &&
-        !game.achievements.hundred
-      ) {
-
-        game.achievements.hundred = true;
-
-        document
-          .getElementById("achievement100")
-          .classList.add("unlocked");
-
-        document
-          .getElementById("achievement100")
-          .textContent = "✅ Press it 100 times";
-
-        setMessage(
-          "Okay... this is getting weird."
-        );
-
-        addEvent(
-          "⚠️ 100 presses reached."
-        );
-      }
-
-
-      if (
-        game.presses >= 1000 &&
-        !game.achievements.thousand
-      ) {
-
-        game.achievements.thousand = true;
-
-        document
-          .getElementById("achievement1000")
-          .classList.add("unlocked");
-
-        document
-          .getElementById("achievement1000")
-          .textContent = "✅ Press it 1,000 times";
-
-        setMessage(
-          "WHY ARE YOU STILL PRESSING IT?!"
-        );
-
-        addEvent(
-          "🚨 1,000 presses reached."
-        );
-      }
-
-    }
-
-
-    /* =========================
        BUTTON EVENT
-    ========================== */
+    ========================= */
 
     mainButton.addEventListener(
       "click",
@@ -736,78 +459,76 @@
 
 
     /* =========================
-       UPGRADES
-    ========================== */
+       BLOCK COPYING
+    ========================= */
 
-    document
-      .querySelectorAll(".upgrade-btn")
-      .forEach(button => {
+    document.addEventListener(
+      "copy",
+      (event) => {
+        event.preventDefault();
+      }
+    );
 
-        button.addEventListener(
-          "click",
-          () => {
+    document.addEventListener(
+      "cut",
+      (event) => {
+        event.preventDefault();
+      }
+    );
 
-            const upgrade =
-              button.dataset.upgrade;
-
-            handleUpgrade(upgrade);
-
-          }
-        );
-
-      });
-
-
-    function handleUpgrade(type) {
-
-      /*
-        Upgrade logic goes here.
-
-        Example later:
-
-        if (type === "finger") {
-          ...
-        }
-
-        if (type === "auto") {
-          ...
-        }
-      */
-
-      setMessage(
-        "Upgrades aren't implemented yet 👀"
-      );
-
-    }
+    document.addEventListener(
+      "contextmenu",
+      (event) => {
+        event.preventDefault();
+      }
+    );
 
 
     /* =========================
-       START GAME
-    ========================== */
+       START
+    ========================= */
 
     updateUI();
 
   </script>
 
-<script>
-  if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-      navigator.serviceWorker.register("./sw.js")
-        .then((registration) => {
-          console.log(
-            "Service Worker registered:",
-            registration.scope
-          );
-        })
-        .catch((error) => {
-          console.error(
-            "Service Worker registration failed:",
-            error
-          );
-        });
-    });
-  }
-</script>
+
+  <!-- =========================
+       SERVICE WORKER
+  ========================== -->
+
+  <script>
+
+    if ("serviceWorker" in navigator) {
+
+      window.addEventListener("load", () => {
+
+        navigator.serviceWorker
+          .register("./sw.js")
+
+          .then((registration) => {
+
+            console.log(
+              "Service Worker registered:",
+              registration.scope
+            );
+
+          })
+
+          .catch((error) => {
+
+            console.error(
+              "Service Worker registration failed:",
+              error
+            );
+
+          });
+
+      });
+
+    }
+
+  </script>
 
 </body>
 </html>
