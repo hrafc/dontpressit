@@ -393,102 +393,277 @@
   <script>
 
     const game = {
-      presses: 0,
-      points: 0,
-      pointsPerPress: 1
-    };
+  presses: Number(localStorage.getItem("dontPressPresses")) || 0,
+  points: Number(localStorage.getItem("dontPressPoints")) || 0,
+  pointsPerPress: 1
+};
 
 
-    const mainButton =
-      document.getElementById("mainButton");
+const mainButton =
+  document.getElementById("mainButton");
 
-    const pressCount =
-      document.getElementById("pressCount");
+const pressCount =
+  document.getElementById("pressCount");
 
-    const pointsDisplay =
-      document.getElementById("points");
+const pointsDisplay =
+  document.getElementById("points");
 
-    const perPressDisplay =
-      document.getElementById("perPress");
+const perPressDisplay =
+  document.getElementById("perPress");
 
-    const messageBox =
-      document.getElementById("messageBox");
-
-
-    /* =========================
-       UPDATE UI
-    ========================= */
-
-    function updateUI() {
-
-      pressCount.textContent =
-        game.presses.toLocaleString();
-
-      pointsDisplay.textContent =
-        game.points.toLocaleString();
-
-      perPressDisplay.textContent =
-        game.pointsPerPress.toLocaleString();
-
-    }
+const messageBox =
+  document.getElementById("messageBox");
 
 
-    /* =========================
-       PRESS BUTTON
-    ========================= */
+/* =========================
+   SAVE GAME
+========================= */
 
-    function pressButton() {
+function saveGame() {
+  localStorage.setItem(
+    "dontPressPresses",
+    game.presses
+  );
 
-      game.presses++;
-
-      game.points += game.pointsPerPress;
-
-      updateUI();
-
-    }
-
-
-    /* =========================
-       BUTTON EVENT
-    ========================= */
-
-    mainButton.addEventListener(
-      "click",
-      pressButton
-    );
+  localStorage.setItem(
+    "dontPressPoints",
+    game.points
+  );
+}
 
 
-    /* =========================
-       BLOCK COPYING
-    ========================= */
+/* =========================
+   UPDATE UI
+========================= */
 
-    document.addEventListener(
-      "copy",
-      (event) => {
-        event.preventDefault();
-      }
-    );
+function updateUI() {
 
-    document.addEventListener(
-      "cut",
-      (event) => {
-        event.preventDefault();
-      }
-    );
+  pressCount.textContent =
+    game.presses.toLocaleString();
 
-    document.addEventListener(
-      "contextmenu",
-      (event) => {
-        event.preventDefault();
-      }
-    );
+  pointsDisplay.textContent =
+    game.points.toLocaleString();
+
+  perPressDisplay.textContent =
+    game.pointsPerPress.toLocaleString();
+}
 
 
-    /* =========================
-       START
-    ========================= */
+/* =========================
+   MOTIVATION
+========================= */
 
+function showMotivation() {
+
+  if (game.presses >= 200) {
+
+    messageBox.textContent =
+      "WELL DONE 🔴 YOU ACTUALLY DID IT.";
+
+    return;
+  }
+
+  if (game.presses >= 150) {
+
+    messageBox.textContent =
+      "You made it this far... keep going.";
+
+    return;
+  }
+
+  if (game.presses >= 100) {
+
+    messageBox.textContent =
+      "PLEASE SUBSCRIBE 😭🔴";
+
+    return;
+  }
+
+  if (game.presses >= 50) {
+
+    messageBox.textContent =
+      "DON'T STOP.";
+
+    return;
+  }
+
+  if (game.presses >= 10) {
+
+    messageBox.textContent =
+      "KEEP GOING.";
+
+    return;
+  }
+
+  messageBox.textContent =
+    "The button is waiting...";
+}
+
+
+/* =========================
+   SPECIAL MILESTONES
+========================= */
+
+function checkMilestones() {
+
+  /* 10 CLICKS */
+
+  if (game.presses === 10) {
+
+    messageBox.textContent =
+      "KEEP GOING.";
+
+  }
+
+
+  /* 50 CLICKS */
+
+  if (game.presses === 50) {
+
+    messageBox.textContent =
+      "DON'T STOP.";
+
+  }
+
+
+  /* 100 CLICKS */
+
+  if (game.presses === 100) {
+
+    messageBox.textContent =
+      "PLEASE SUBSCRIBE 😭🔴";
+
+    saveGame();
     updateUI();
+
+    setTimeout(() => {
+
+      window.location.href =
+        "https://www.youtube.com/@ryu_zaki.67";
+
+    }, 1200);
+
+    return;
+  }
+
+
+  /* 150 CLICKS */
+
+  if (game.presses === 150) {
+
+    messageBox.textContent =
+      "YOU MADE IT TO 150 💀";
+
+    saveGame();
+    updateUI();
+
+    setTimeout(() => {
+
+      window.location.href =
+        "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+
+    }, 800);
+
+    return;
+  }
+
+
+  /* 200 CLICKS */
+
+  if (game.presses === 200) {
+
+    messageBox.textContent =
+      "WELL DONE 🔴";
+
+    saveGame();
+    updateUI();
+
+    setTimeout(() => {
+
+      window.location.href =
+        "https://www.youtube.com/watch?v=8B3zKexjXxw";
+
+    }, 1200);
+
+    return;
+  }
+}
+
+
+/* =========================
+   PRESS BUTTON
+========================= */
+
+function pressButton() {
+
+  game.presses++;
+
+  game.points += game.pointsPerPress;
+
+  saveGame();
+
+  updateUI();
+
+  checkMilestones();
+
+  /*
+    Only show normal motivation
+    when we aren't at a special
+    redirect milestone.
+  */
+
+  if (
+    game.presses !== 100 &&
+    game.presses !== 150 &&
+    game.presses !== 200
+  ) {
+    showMotivation();
+  }
+}
+
+
+/* =========================
+   BUTTON EVENT
+========================= */
+
+mainButton.addEventListener(
+  "click",
+  pressButton
+);
+
+
+/* =========================
+   COPY PROTECTION
+========================= */
+
+document.addEventListener(
+  "copy",
+  (event) => {
+    event.preventDefault();
+  }
+);
+
+document.addEventListener(
+  "cut",
+  (event) => {
+    event.preventDefault();
+  }
+);
+
+document.addEventListener(
+  "contextmenu",
+  (event) => {
+    event.preventDefault();
+  }
+);
+
+
+/* =========================
+   START
+========================= */
+
+updateUI();
+showMotivation();
 
   </script>
 
