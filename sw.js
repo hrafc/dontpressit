@@ -1,15 +1,12 @@
-const CACHE_NAME = "dont-press-it-v1.1.2";
+const CACHE_NAME = "dont-press-it-v2";
 
 const FILES_TO_CACHE = [
   "./",
   "./index.html",
   "./manifest.json",
-  "./sw.js",
-  "./icon-192.png",
-  "./icon-512.png"
+  "./sw.js"
 ];
 
-// Install
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
@@ -20,7 +17,6 @@ self.addEventListener("install", (event) => {
   self.skipWaiting();
 });
 
-// Activate
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys().then((keys) => {
@@ -35,34 +31,27 @@ self.addEventListener("activate", (event) => {
   self.clients.claim();
 });
 
-// Fetch
 self.addEventListener("fetch", (event) => {
+  if (event.request.method !== "GET") {
+    return;
+  }
+
   event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      if (cachedResponse) {
-        return cachedResponse;
-      }
+    fetch(event.request)
+      .then((response) => {
+        if (response.ok) {
+          const clone = response.clone();
 
-      return fetch(event.request)
-        .then((response) => {
-          // Only cache successful GET requests
-          if (
-            response.ok &&
-            event.request.method === "GET"
-          ) {
-            const responseClone = response.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, clone);
+          });
+        }
 
-            caches.open(CACHE_NAME).then((cache) => {
-              cache.put(event.request, responseClone);
-            });
-          }
-
-          return response;
-        })
-        .catch(() => {
-          // Offline fallback
-          return caches.match("./index.html");
-        });
-    })
+        return response;
+      })
+      .catch(() => {
+        return caches.match(event.request)
+          .then((cached) => cached || caches.match("./index.html"));
+      })
   );
 });
