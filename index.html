@@ -14,8 +14,9 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      -webkit-user-select: none;
+
       user-select: none;
+      -webkit-user-select: none;
       -webkit-touch-callout: none;
     }
 
@@ -34,13 +35,13 @@
     }
 
     button {
-      -webkit-user-select: none;
       user-select: none;
+      -webkit-user-select: none;
     }
 
     /* =========================
-       APP
-    ========================= */
+       GAME
+    ========================== */
 
     .game {
       min-height: 100vh;
@@ -50,14 +51,16 @@
 
     /* =========================
        TOP BAR
-    ========================= */
+    ========================== */
 
     .topbar {
       width: 100%;
       padding: 18px 25px;
+
       display: flex;
       justify-content: space-between;
       align-items: center;
+
       background: #111;
       border-bottom: 1px solid #222;
     }
@@ -88,6 +91,7 @@
       color: #777;
       font-size: 11px;
       text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
     .stat-value {
@@ -96,7 +100,7 @@
 
     /* =========================
        MAIN
-    ========================= */
+    ========================== */
 
     .main {
       flex: 1;
@@ -106,7 +110,7 @@
 
     /* =========================
        PLAY AREA
-    ========================= */
+    ========================== */
 
     .play-area {
       width: 100%;
@@ -127,12 +131,13 @@
 
     /* =========================
        WARNING
-    ========================= */
+    ========================== */
 
     .warning {
       font-size: 16px;
       color: #aaa;
       margin-bottom: 25px;
+
       letter-spacing: 1px;
       text-align: center;
     }
@@ -143,10 +148,11 @@
 
     /* =========================
        BUTTON
-    ========================= */
+    ========================== */
 
     .button-wrapper {
       position: relative;
+
       display: flex;
       justify-content: center;
       align-items: center;
@@ -195,61 +201,145 @@
 
     /* =========================
        COUNTER
-    ========================= */
+    ========================== */
 
     .press-count {
       margin-top: 35px;
+
       font-size: 44px;
       font-weight: 900;
     }
 
     .press-label {
+      margin-top: 4px;
+
       color: #666;
+
       text-transform: uppercase;
       font-size: 12px;
       letter-spacing: 3px;
-      margin-top: 4px;
-    }
-
-    /* =========================
-       MESSAGE
-    ========================= */
-
-    .message-box {
-      margin-top: 40px;
-
-      width: min(500px, 90%);
-      min-height: 55px;
-
-      background: #161616;
-      border: 1px solid #292929;
-      border-radius: 12px;
-
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      text-align: center;
-      padding: 15px;
-
-      color: #bbb;
-      font-size: 14px;
     }
 
     /* =========================
        FOOTER
-    ========================= */
+    ========================== */
 
     .footer {
       padding: 15px;
+
       text-align: center;
+
       color: #444;
       font-size: 11px;
     }
 
     /* =========================
+       MODAL OVERLAY
+    ========================== */
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+
+      display: none;
+      justify-content: center;
+      align-items: center;
+
+      padding: 20px;
+
+      background: rgba(0, 0, 0, 0.78);
+
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+
+      z-index: 9999;
+    }
+
+    .modal-overlay.show {
+      display: flex;
+    }
+
+    /* =========================
+       MODAL
+    ========================== */
+
+    .modal {
+      width: min(420px, 100%);
+
+      padding: 30px;
+
+      background: #111;
+
+      border: 1px solid #333;
+      border-radius: 18px;
+
+      text-align: center;
+
+      box-shadow:
+        0 30px 80px rgba(0, 0, 0, 0.75);
+
+      animation: modalPop 0.2s ease;
+    }
+
+    .modal-message {
+      color: white;
+
+      font-size: 24px;
+      font-weight: 900;
+
+      line-height: 1.3;
+
+      margin-bottom: 25px;
+    }
+
+    .modal-close {
+      border: none;
+
+      padding: 12px 24px;
+
+      border-radius: 10px;
+
+      background: #ff2a2a;
+      color: white;
+
+      font-size: 14px;
+      font-weight: 900;
+
+      cursor: pointer;
+
+      transition:
+        transform 0.15s,
+        background 0.15s;
+    }
+
+    .modal-close:hover {
+      transform: scale(1.05);
+      background: #ff4040;
+    }
+
+    .modal-close:active {
+      transform: scale(0.97);
+    }
+
+    /* =========================
+       MODAL ANIMATION
+    ========================== */
+
+    @keyframes modalPop {
+      from {
+        opacity: 0;
+        transform: scale(0.85);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* =========================
        RESPONSIVE
-    ========================= */
+    ========================== */
 
     @media (max-width: 600px) {
 
@@ -283,6 +373,14 @@
         font-size: 14px;
         padding: 0 15px;
       }
+
+      .modal {
+        padding: 25px;
+      }
+
+      .modal-message {
+        font-size: 21px;
+      }
     }
   </style>
 </head>
@@ -304,23 +402,33 @@
       <div class="stats">
 
         <div class="stat">
-          <span class="stat-label">Points</span>
+
+          <span class="stat-label">
+            Points
+          </span>
+
           <span
             class="stat-value"
             id="points"
           >
             0
           </span>
+
         </div>
 
         <div class="stat">
-          <span class="stat-label">Per Press</span>
+
+          <span class="stat-label">
+            Per Press
+          </span>
+
           <span
             class="stat-value"
             id="perPress"
           >
             1
           </span>
+
         </div>
 
       </div>
@@ -347,6 +455,7 @@
           <button
             class="main-button"
             id="mainButton"
+            type="button"
           >
             DON'T PRESS
           </button>
@@ -366,18 +475,14 @@
           presses
         </div>
 
-
-        <div
-          class="message-box"
-          id="messageBox"
-        >
-          The button is waiting...
-        </div>
-
       </section>
 
     </main>
 
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
 
     <footer class="footer">
       You were warned.
@@ -387,283 +492,411 @@
 
 
   <!-- =========================
-       GAME JS
+       MILESTONE MODAL
+  ========================== -->
+
+  <div
+    class="modal-overlay"
+    id="modalOverlay"
+  >
+
+    <div class="modal">
+
+      <div
+        class="modal-message"
+        id="modalMessage"
+      >
+        DO NOT KEEP GOING.
+      </div>
+
+      <button
+        class="modal-close"
+        id="modalClose"
+        type="button"
+      >
+        CONTINUE
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       GAME JAVASCRIPT
   ========================== -->
 
   <script>
 
+    /* =========================
+       GAME STATE
+    ========================== */
+
     const game = {
-  presses: Number(localStorage.getItem("dontPressPresses")) || 0,
-  points: Number(localStorage.getItem("dontPressPoints")) || 0,
-  pointsPerPress: 1
-};
+
+      presses:
+        Number(
+          localStorage.getItem(
+            "dontPressPresses"
+          )
+        ) || 0,
+
+      points:
+        Number(
+          localStorage.getItem(
+            "dontPressPoints"
+          )
+        ) || 0,
+
+      pointsPerPress: 1
+
+    };
 
 
-const mainButton =
-  document.getElementById("mainButton");
+    /* =========================
+       DOM
+    ========================== */
 
-const pressCount =
-  document.getElementById("pressCount");
+    const mainButton =
+      document.getElementById(
+        "mainButton"
+      );
 
-const pointsDisplay =
-  document.getElementById("points");
+    const pressCount =
+      document.getElementById(
+        "pressCount"
+      );
 
-const perPressDisplay =
-  document.getElementById("perPress");
+    const pointsDisplay =
+      document.getElementById(
+        "points"
+      );
 
-const messageBox =
-  document.getElementById("messageBox");
+    const perPressDisplay =
+      document.getElementById(
+        "perPress"
+      );
 
+    const modalOverlay =
+      document.getElementById(
+        "modalOverlay"
+      );
 
-/* =========================
-   SAVE GAME
-========================= */
+    const modalMessage =
+      document.getElementById(
+        "modalMessage"
+      );
 
-function saveGame() {
-  localStorage.setItem(
-    "dontPressPresses",
-    game.presses
-  );
-
-  localStorage.setItem(
-    "dontPressPoints",
-    game.points
-  );
-}
-
-
-/* =========================
-   UPDATE UI
-========================= */
-
-function updateUI() {
-
-  pressCount.textContent =
-    game.presses.toLocaleString();
-
-  pointsDisplay.textContent =
-    game.points.toLocaleString();
-
-  perPressDisplay.textContent =
-    game.pointsPerPress.toLocaleString();
-}
+    const modalClose =
+      document.getElementById(
+        "modalClose"
+      );
 
 
-/* =========================
-   MOTIVATION
-========================= */
+    /* =========================
+       SAVE GAME
+    ========================== */
 
-function showMotivation() {
+    function saveGame() {
 
-  if (game.presses >= 200) {
+      localStorage.setItem(
+        "dontPressPresses",
+        game.presses
+      );
 
-    messageBox.textContent =
-      "WELL DONE 🔴 YOU ACTUALLY DID IT.";
+      localStorage.setItem(
+        "dontPressPoints",
+        game.points
+      );
 
-    return;
-  }
-
-  if (game.presses >= 150) {
-
-    messageBox.textContent =
-      "You made it this far... keep going.";
-
-    return;
-  }
-
-  if (game.presses >= 100) {
-
-    messageBox.textContent =
-      "PLEASE SUBSCRIBE 😭🔴";
-
-    return;
-  }
-
-  if (game.presses >= 50) {
-
-    messageBox.textContent =
-      "DON'T STOP.";
-
-    return;
-  }
-
-  if (game.presses >= 10) {
-
-    messageBox.textContent =
-      "KEEP GOING.";
-
-    return;
-  }
-
-  messageBox.textContent =
-    "The button is waiting...";
-}
+    }
 
 
-/* =========================
-   SPECIAL MILESTONES
-========================= */
+    /* =========================
+       UPDATE UI
+    ========================== */
 
-function checkMilestones() {
+    function updateUI() {
 
-  /* 10 CLICKS */
+      pressCount.textContent =
+        game.presses.toLocaleString();
 
-  if (game.presses === 10) {
+      pointsDisplay.textContent =
+        game.points.toLocaleString();
 
-    messageBox.textContent =
-      "KEEP GOING.";
+      perPressDisplay.textContent =
+        game.pointsPerPress.toLocaleString();
 
-  }
-
-
-  /* 50 CLICKS */
-
-  if (game.presses === 50) {
-
-    messageBox.textContent =
-      "DON'T STOP.";
-
-  }
+    }
 
 
-  /* 100 CLICKS */
+    /* =========================
+       SHOW MODAL
+    ========================== */
 
-  if (game.presses === 100) {
+    function showModal(message) {
 
-    messageBox.textContent =
-      "PLEASE SUBSCRIBE 😭🔴";
+      modalMessage.textContent =
+        message;
 
-    saveGame();
+      modalOverlay.classList.add(
+        "show"
+      );
+
+    }
+
+
+    /* =========================
+       CLOSE MODAL
+    ========================== */
+
+    function closeModal() {
+
+      modalOverlay.classList.remove(
+        "show"
+      );
+
+    }
+
+
+    /* =========================
+       BUTTON PRESS
+    ========================== */
+
+    function pressButton() {
+
+      game.presses++;
+
+      game.points +=
+        game.pointsPerPress;
+
+      saveGame();
+
+      updateUI();
+
+      checkMilestone();
+
+    }
+
+
+    /* =========================
+       MILESTONES
+    ========================== */
+
+    function checkMilestone() {
+
+      /* =====================
+         10 PRESSES
+      ===================== */
+
+      if (game.presses === 10) {
+
+        showModal(
+          "KEEP GOING."
+        );
+
+        return;
+      }
+
+
+      /* =====================
+         50 PRESSES
+      ===================== */
+
+      if (game.presses === 50) {
+
+        showModal(
+          "PLS STOP."
+        );
+
+        return;
+      }
+
+
+      /* =====================
+         100 PRESSES
+      ===================== */
+
+      if (game.presses === 100) {
+
+        showModal(
+          "PLEASE SUBSCRIBE 😭"
+        );
+
+        modalClose.textContent =
+          "SUBSCRIBE";
+
+        setTimeout(() => {
+
+          window.location.href =
+            "https://www.youtube.com/@ryu_zaki.67";
+
+        }, 1500);
+
+        return;
+      }
+
+
+      /* =====================
+         150 PRESSES
+      ===================== */
+
+      if (game.presses === 150) {
+
+        showModal(
+          "YOU MADE IT THIS FAR 💀"
+        );
+
+        modalClose.textContent =
+          "CONTINUE";
+
+        setTimeout(() => {
+
+          window.location.href =
+            "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+
+        }, 1200);
+
+        return;
+      }
+
+
+      /* =====================
+         200 PRESSES
+      ===================== */
+
+      if (game.presses === 200) {
+
+        showModal(
+          "WELL DONE 🔴"
+        );
+
+        modalClose.textContent =
+          "CONTINUE";
+
+        setTimeout(() => {
+
+          window.location.href =
+            "https://www.youtube.com/watch?v=8B3zKexjXxw";
+
+        }, 1500);
+
+        return;
+      }
+
+    }
+
+
+    /* =========================
+       MODAL CLOSE BUTTON
+    ========================== */
+
+    modalClose.addEventListener(
+      "click",
+      closeModal
+    );
+
+
+    /* =========================
+       CLICK OUTSIDE MODAL
+    ========================== */
+
+    modalOverlay.addEventListener(
+      "click",
+      (event) => {
+
+        if (
+          event.target ===
+          modalOverlay
+        ) {
+
+          closeModal();
+
+        }
+
+      }
+    );
+
+
+    /* =========================
+       ESC KEY
+    ========================== */
+
+    document.addEventListener(
+      "keydown",
+      (event) => {
+
+        if (
+          event.key === "Escape"
+        ) {
+
+          closeModal();
+
+        }
+
+      }
+    );
+
+
+    /* =========================
+       MAIN BUTTON
+    ========================== */
+
+    mainButton.addEventListener(
+      "click",
+      pressButton
+    );
+
+
+    /* =========================
+       COPY PROTECTION
+    ========================== */
+
+    document.addEventListener(
+      "copy",
+      (event) => {
+
+        event.preventDefault();
+
+      }
+    );
+
+
+    document.addEventListener(
+      "cut",
+      (event) => {
+
+        event.preventDefault();
+
+      }
+    );
+
+
+    document.addEventListener(
+      "contextmenu",
+      (event) => {
+
+        event.preventDefault();
+
+      }
+    );
+
+
+    document.addEventListener(
+      "dragstart",
+      (event) => {
+
+        event.preventDefault();
+
+      }
+    );
+
+
+    /* =========================
+       START GAME
+    ========================== */
+
     updateUI();
-
-    setTimeout(() => {
-
-      window.location.href =
-        "https://www.youtube.com/@ryu_zaki.67";
-
-    }, 1200);
-
-    return;
-  }
-
-
-  /* 150 CLICKS */
-
-  if (game.presses === 150) {
-
-    messageBox.textContent =
-      "YOU MADE IT TO 150 💀";
-
-    saveGame();
-    updateUI();
-
-    setTimeout(() => {
-
-      window.location.href =
-        "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
-
-    }, 800);
-
-    return;
-  }
-
-
-  /* 200 CLICKS */
-
-  if (game.presses === 200) {
-
-    messageBox.textContent =
-      "WELL DONE 🔴";
-
-    saveGame();
-    updateUI();
-
-    setTimeout(() => {
-
-      window.location.href =
-        "https://www.youtube.com/watch?v=8B3zKexjXxw";
-
-    }, 1200);
-
-    return;
-  }
-}
-
-
-/* =========================
-   PRESS BUTTON
-========================= */
-
-function pressButton() {
-
-  game.presses++;
-
-  game.points += game.pointsPerPress;
-
-  saveGame();
-
-  updateUI();
-
-  checkMilestones();
-
-  /*
-    Only show normal motivation
-    when we aren't at a special
-    redirect milestone.
-  */
-
-  if (
-    game.presses !== 100 &&
-    game.presses !== 150 &&
-    game.presses !== 200
-  ) {
-    showMotivation();
-  }
-}
-
-
-/* =========================
-   BUTTON EVENT
-========================= */
-
-mainButton.addEventListener(
-  "click",
-  pressButton
-);
-
-
-/* =========================
-   COPY PROTECTION
-========================= */
-
-document.addEventListener(
-  "copy",
-  (event) => {
-    event.preventDefault();
-  }
-);
-
-document.addEventListener(
-  "cut",
-  (event) => {
-    event.preventDefault();
-  }
-);
-
-document.addEventListener(
-  "contextmenu",
-  (event) => {
-    event.preventDefault();
-  }
-);
-
-
-/* =========================
-   START
-========================= */
-
-updateUI();
-showMotivation();
 
   </script>
 
@@ -674,32 +907,41 @@ showMotivation();
 
   <script>
 
-    if ("serviceWorker" in navigator) {
+    if (
+      "serviceWorker" in navigator
+    ) {
 
-      window.addEventListener("load", () => {
+      window.addEventListener(
+        "load",
+        () => {
 
-        navigator.serviceWorker
-          .register("./sw.js")
+          navigator.serviceWorker
+            .register("./sw.js")
 
-          .then((registration) => {
+            .then(
+              (registration) => {
 
-            console.log(
-              "Service Worker registered:",
-              registration.scope
+                console.log(
+                  "Service Worker registered:",
+                  registration.scope
+                );
+
+              }
+            )
+
+            .catch(
+              (error) => {
+
+                console.error(
+                  "Service Worker registration failed:",
+                  error
+                );
+
+              }
             );
 
-          })
-
-          .catch((error) => {
-
-            console.error(
-              "Service Worker registration failed:",
-              error
-            );
-
-          });
-
-      });
+        }
+      );
 
     }
 
